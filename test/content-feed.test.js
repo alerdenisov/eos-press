@@ -2,6 +2,8 @@ const fs = require("fs");
 const eosic = require("eosic");
 const binaryen = require("binaryen");
 const Eos = require("eosjs");
+const base58 = require("bs58");
+const { ecc } = Eos.modules;
 
 const [pub, wif] = [
   "EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV",
@@ -14,11 +16,12 @@ const eos = Eos({
 
 describe("contentFeed", () => {
   it("should print hash", async () => {
+    require("signale").info("start test case");
     wasm = fs.readFileSync("contracts/contentFeed/contentFeed.wasm");
     abi = fs.readFileSync("contracts/contentFeed/contentFeed.abi");
 
-    const contractWif = Eos.modules.ecc.seedPrivate(Math.random().toString());
-    const contractPub = Eos.modules.ecc.privateToPublic(wif);
+    const contractWif = ecc.seedPrivate(Math.random().toString());
+    const contractPub = ecc.privateToPublic(wif);
     const account = await eos.newaccount({
       creator: "eosio",
       name: "contentfeed",
@@ -26,14 +29,32 @@ describe("contentFeed", () => {
       active: contractPub
     });
 
-    console.log(
-      await eos.transaction(tr => {
-        tr.setcode("contentfeed", 0, 0, wasm);
-        tr.setabi("contentfeed", JSON.parse(abi));
-      })
+    await eos.transaction(tr => {
+      tr.setcode("contentfeed", 0, 0, wasm);
+      tr.setabi("contentfeed", JSON.parse(abi));
+    });
+
+    require("signale").info("load contract");
+    const instance = await eos.contract("contentfeed");
+    require("signale").info("interact with a contract");
+    require("signale").info(ecc.sha256("test content"));
+    require("signale").info(ecc.signHash(ecc.sha256("test content"), wif));
+    require("signale").info(
+      ecc
+        .PublicKey(pub)
+        .toBuffer()
+        .toString("hex")
+    );
+    const response = await instance.add(
+      "eosio",
+      100,
+      "test content",
+      ecc.signHash(ecc.sha256("test content"), wif),
+      {
+        authorization: "eosio"
+      }
     );
 
-    const instance = await eos.contract("contentfeed");
-    instance.add("eosio", 0, "test content", "test sig");
+    await new Promise(resolve => setTimeout(resolve, 1000));
   });
 });

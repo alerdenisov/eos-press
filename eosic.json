@@ -10,7 +10,7 @@
       "version": "0.0.1.1",
       "description": "Content Feed contract",
       "entry": "contentFeed.cpp",
-      "checksum": "3ed65730717bf4910a7ed0af8ae5d1a6"
+      "checksum": "7c451cd4f6078d4432d9f5f9e6232aa8"
     },
     "addressbook": {
       "name": "addressbook",
