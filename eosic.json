@@ -1,0 +1,22 @@
+{
+  "name": "eos-press",
+  "version": "0.0.1",
+  "description": "EOS based websites",
+  "tests": "./test",
+  "migrations": "./migrate",
+  "contracts": {
+    "contentFeed": {
+      "name": "contentFeed",
+      "version": "0.0.1.1",
+      "description": "Content Feed contract",
+      "entry": "contentFeed.cpp",
+      "checksum": "3ed65730717bf4910a7ed0af8ae5d1a6"
+    },
+    "addressbook": {
+      "name": "addressbook",
+      "version": "0.0.1.1",
+      "description": "Example contract from webinar",
+      "entry": "addressbook.cpp"
+    }
+  }
+}
