@@ -46,13 +46,22 @@ describe("contentFeed", () => {
         .toString("hex")
     );
     const response = await instance.add(
+      "testfeed",
       "eosio",
-      100,
+      0,
       "test content",
       ecc.signHash(ecc.sha256("test content"), wif),
       {
         authorization: "eosio"
       }
+    );
+
+    console.log(
+      (await eos.getAccount("eosio")).permissions.map(p => p.required_auth.keys)
+    );
+
+    console.log(
+      await eos.getTableRows(true, "contentfeed", "testfeed", "contentnode")
     );
 
     await new Promise(resolve => setTimeout(resolve, 1000));

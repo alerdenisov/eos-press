@@ -10,13 +10,14 @@
       "version": "0.0.1.1",
       "description": "Content Feed contract",
       "entry": "contentFeed.cpp",
-      "checksum": "7c451cd4f6078d4432d9f5f9e6232aa8"
+      "checksum": "b6108ffbf74f538f4af450d3625a3962"
     },
     "addressbook": {
       "name": "addressbook",
       "version": "0.0.1.1",
       "description": "Example contract from webinar",
-      "entry": "addressbook.cpp"
+      "entry": "addressbook.cpp",
+      "checksum": "f369829d1d9e6f0aeb05cd9cc7daf1a5"
     }
   }
 }
